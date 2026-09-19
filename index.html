@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apolo Rossi</title>
+<meta name="description" content="Portfolio of Apolo Rossi, Android software engineer specialized in Kotlin, Jetpack Compose and clean architecture.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0A0F0E;
+    --surface: #0F1715;
+    --line: #1E2B27;
+    --text: #E4EEE9;
+    --muted: #8FA39A;
+    --accent: #6EE7B7;
+    --accent-ink: #04211A;
+    --kw: #FF9E80;
+    --ty: #8AB4FF;
+    --num: #FFD37A;
+    --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+    --font-body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    background: var(--bg);
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :root { scroll-behavior: auto; }
+    .caret { animation: none !important; }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 400 16px/1.65 var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  .wrap { max-width: 1080px; margin-inline: auto; padding-inline: 20px; }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: rgba(10, 15, 14, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 56px; }
+  .brand { font: 600 18px/1 var(--font-display); text-decoration: none; letter-spacing: -0.01em; }
+  .nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; }
+  .nav ul a { font: 500 13px/1 var(--font-mono); color: var(--muted); text-decoration: none; transition: color .15s; }
+  .nav ul a:hover { color: var(--accent); }
+
+  /* ---------- Hero ---------- */
+  .hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 56px; align-items: center; padding-block: 88px 72px; }
+  .eyebrow { font: 500 13px/1 var(--font-mono); color: var(--accent); letter-spacing: 0.04em; margin: 0 0 20px; }
+  h1 {
+    font: 700 clamp(2.4rem, 5.2vw, 3.9rem)/1.04 var(--font-display);
+    letter-spacing: -0.03em;
+    margin: 0 0 24px;
+    text-wrap: balance;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .lede { font-size: 1.125rem; color: var(--muted); max-width: 52ch; margin: 0 0 32px; }
+  .lede strong { color: var(--text); font-weight: 500; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font: 500 14px/1 var(--font-mono);
+    padding: 14px 18px; border-radius: 8px; text-decoration: none;
+    border: 1px solid var(--line); color: var(--text); background: var(--surface);
+    transition: border-color .15s, transform .15s;
+  }
+  .btn:hover { border-color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 500; }
+  .btn.primary:hover { transform: translateY(-1px); }
+
+  .facts { display: flex; flex-wrap: wrap; gap: 24px 28px; margin: 48px 0 0; padding: 24px 0 0; border-top: 1px solid var(--line); }
+  .facts div { display: flex; flex-direction: column; gap: 4px; }
+  .facts dt { font: 700 30px/1 var(--font-display); letter-spacing: -0.02em; color: var(--num); }
+  .facts dd { margin: 0; font-size: 13px; line-height: 1.4; color: var(--muted); max-width: 15ch; }
+
+  /* code card */
+  .code { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); overflow: hidden; min-width: 0; }
+  .code-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--line); font: 500 12px/1 var(--font-mono); color: var(--muted); }
+  .code-head b { color: var(--text); font-weight: 500; }
+  .code pre { margin: 0; padding: 20px 18px 22px; overflow-x: auto; font: 400 13.5px/1.75 var(--font-mono); color: var(--text); tab-size: 4; }
+  .k { color: var(--kw); } .t { color: var(--ty); } .s { color: var(--accent); } .n { color: var(--num); } .c { color: var(--muted); }
+  .p { color: var(--muted); }
+  .caret { display: inline-block; width: 8px; height: 1.1em; background: var(--accent); vertical-align: text-bottom; margin-left: 2px; animation: blink 1.1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ---------- Sections ---------- */
+  .section { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 32px; padding-block: 72px; border-top: 1px solid var(--line); scroll-margin-top: 56px; }
+  .label { font: 500 13px/1.4 var(--font-mono); color: var(--accent); margin: 6px 0 0; letter-spacing: 0.02em; }
+  h2 { font: 650 clamp(1.7rem, 3.2vw, 2.3rem)/1.15 var(--font-display); letter-spacing: -0.02em; margin: 0 0 28px; text-wrap: balance; max-width: 24ch; }
+  h3 { font: 600 1.25rem/1.3 var(--font-display); letter-spacing: -0.01em; margin: 0; }
+  p { margin: 0; }
+
+  .about-text { display: grid; gap: 18px; max-width: 64ch; color: var(--muted); font-size: 1.0625rem; }
+  .about-text strong { color: var(--text); font-weight: 500; }
+  .focus { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 48px; }
+  .focus > div { border-top: 1px solid var(--line); padding-top: 18px; }
+  .focus h3 { font: 500 13px/1.3 var(--font-mono); color: var(--text); margin-bottom: 10px; letter-spacing: 0.02em; }
+  .focus p { color: var(--muted); font-size: 0.9375rem; line-height: 1.6; }
+
+  /* stack */
+  .stack-row { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 12px 24px; padding-block: 20px; border-top: 1px solid var(--line); }
+  .stack-row:first-child { border-top: 0; padding-top: 0; }
+  .stack-row h3 { font: 500 14px/1.5 var(--font-body); color: var(--text); padding-top: 6px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font: 500 12.5px/1 var(--font-mono); padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--text); transition: border-color .15s, color .15s; }
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* experience */
+  .job { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 10px 24px; padding-block: 32px; border-top: 1px solid var(--line); }
+  .job:first-child { border-top: 0; padding-top: 0; }
+  .when { font: 500 13px/1.5 var(--font-mono); color: var(--muted); padding-top: 5px; }
+  .now { display: inline-block; margin-top: 8px; font: 500 11px/1 var(--font-mono); color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 5px 9px; letter-spacing: 0.04em; }
+  .role { color: var(--muted); font-size: 0.9375rem; margin: 4px 0 14px; }
+  .context { color: var(--muted); max-width: 62ch; margin-bottom: 14px; }
+  .job ul { margin: 0; padding-left: 20px; display: grid; gap: 10px; max-width: 64ch; }
+  .job li::marker { color: var(--accent); }
+
+  /* education */
+  .edu-row { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 8px 24px; padding-block: 20px; border-top: 1px solid var(--line); }
+  .edu-row:first-child { border-top: 0; padding-top: 0; }
+  .edu-row p { color: var(--muted); font-size: 0.9375rem; }
+  .edu-row h3 { font: 600 1.0625rem/1.4 var(--font-display); }
+
+  /* contact */
+  .contact-copy { color: var(--muted); font-size: 1.0625rem; max-width: 48ch; margin-bottom: 28px; }
+
+  footer { border-top: 1px solid var(--line); }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-block: 28px; font: 400 13px/1.5 var(--font-mono); color: var(--muted); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: minmax(0, 1fr); gap: 44px; padding-block: 56px 48px; }
+    .focus { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  }
+  @media (max-width: 760px) {
+    .section { grid-template-columns: minmax(0, 1fr); gap: 4px; padding-block: 52px; }
+    .label { margin: 0 0 6px; }
+    .stack-row, .job, .edu-row { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .stack-row h3 { padding-top: 0; }
+    .when { padding-top: 0; }
+    .now { margin-top: 0; margin-left: 10px; }
+  }
+  @media (max-width: 560px) {
+    .brand { display: none; }
+    .nav .wrap { justify-content: center; }
+    .nav ul { gap: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">Apolo Rossi</a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#stack">Stack</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">Android Software Engineer</p>
+        <h1 id="hero-title">I build Android apps that hold up under <em>100 million</em> users.</h1>
+        <p class="lede">Nine years of <strong>Kotlin</strong>, <strong>Jetpack Compose</strong> and clean architecture, with a focus on performance, scale and code that teams can keep shipping.</p>
+        <div class="actions">
+          <a class="btn primary" href="#experience">See experience</a>
+          <a class="btn" href="#stack">Tech stack</a>
+        </div>
+        <dl class="facts">
+          <div><dt>9 yrs</dt><dd>building Android apps</dd></div>
+          <div><dt>50M+</dt><dd>active users on a banking app</dd></div>
+          <div><dt>100M+</dt><dd>users on a telecom messaging platform</dd></div>
+        </dl>
+      </div>
+
+      <figure class="code" style="margin:0" aria-label="Kotlin snippet describing the engineer">
+        <div class="code-head"><b>Engineer.kt</b><span>Kotlin</span></div>
+<pre><code><span class="k">data class</span> <span class="t">Engineer</span><span class="p">(</span>
+    <span class="k">val</span> name<span class="p">:</span> <span class="t">String</span><span class="p">,</span>
+    <span class="k">val</span> yearsOnAndroid<span class="p">:</span> <span class="t">Int</span><span class="p">,</span>
+    <span class="k">val</span> ui<span class="p">:</span> <span class="t">List</span><span class="p">&lt;</span><span class="t">String</span><span class="p">&gt;,</span>
+    <span class="k">val</span> architecture<span class="p">:</span> <span class="t">List</span><span class="p">&lt;</span><span class="t">String</span><span class="p">&gt;,</span>
+    <span class="k">val</span> focus<span class="p">:</span> <span class="t">List</span><span class="p">&lt;</span><span class="t">String</span><span class="p">&gt;,</span>
+<span class="p">)</span>
+
+<span class="k">val</span> apolo <span class="p">=</span> <span class="t">Engineer</span><span class="p">(</span>
+    name <span class="p">=</span> <span class="s">"Apolo"</span><span class="p">,</span>
+    yearsOnAndroid <span class="p">=</span> <span class="n">9</span><span class="p">,</span>
+    ui <span class="p">=</span> listOf<span class="p">(</span><span class="s">"Jetpack Compose"</span><span class="p">,</span> <span class="s">"Views"</span><span class="p">),</span>
+    architecture <span class="p">=</span> listOf<span class="p">(</span><span class="s">"MVVM"</span><span class="p">,</span> <span class="s">"Clean Architecture"</span><span class="p">),</span>
+    focus <span class="p">=</span> listOf<span class="p">(</span><span class="s">"performance"</span><span class="p">,</span> <span class="s">"scale"</span><span class="p">,</span> <span class="s">"tests"</span><span class="p">),</span>
+<span class="p">)</span><span class="caret" aria-hidden="true"></span></code></pre>
+      </figure>
+    </section>
+
+    <section class="section" id="about" aria-labelledby="about-title">
+      <p class="label">// about</p>
+      <div>
+        <h2 id="about-title">Fast screens, smooth scrolling, messages that arrive once.</h2>
+        <div class="about-text">
+          <p>I'm an Android engineer who has spent nine years shipping apps for very large audiences, from a mobile banking app with <strong>50M+ active users</strong> to a telecom messaging platform with <strong>100M+ users</strong> around the world.</p>
+          <p>I work mostly in Kotlin and Jetpack Compose, and I care about the things users notice without knowing why: loading times, jank on the main thread, and reliability. I have also designed a base architecture from scratch and led a team of seven Android developers.</p>
+        </div>
+        <div class="focus">
+          <div>
+            <h3>Performance</h3>
+            <p>Profiling with Perfetto and Android Profiler to remove main-thread jank and shorten loading times in critical flows.</p>
+          </div>
+          <div>
+            <h3>Architecture</h3>
+            <p>MVVM, Clean Architecture, modularization and SOLID, so codebases stay easy to change as products and teams grow.</p>
+          </div>
+          <div>
+            <h3>Reliability</h3>
+            <p>Idempotent message delivery, JUnit, MockK and Espresso tests, and crash monitoring with Firebase Crashlytics.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="stack" aria-labelledby="stack-title">
+      <p class="label">// stack</p>
+      <div>
+        <h2 id="stack-title">Tools I use every day.</h2>
+        <div>
+          <div class="stack-row">
+            <h3>Android &amp; Kotlin</h3>
+            <div class="chips">
+              <span class="chip">Kotlin</span><span class="chip">Jetpack Compose</span><span class="chip">Navigation</span><span class="chip">ViewModel</span><span class="chip">Room</span><span class="chip">DataStore</span><span class="chip">Coroutines</span><span class="chip">Flow</span><span class="chip">LiveData</span><span class="chip">Custom Views</span><span class="chip">RecyclerView</span><span class="chip">ConstraintLayout</span>
+            </div>
+          </div>
+          <div class="stack-row">
+            <h3>Architecture</h3>
+            <div class="chips">
+              <span class="chip">MVVM</span><span class="chip">Clean Architecture</span><span class="chip">Repository Pattern</span><span class="chip">Use Cases</span><span class="chip">Modularization</span><span class="chip">SOLID</span><span class="chip">Local/Remote data layers</span>
+            </div>
+          </div>
+          <div class="stack-row">
+            <h3>Networking &amp; data</h3>
+            <div class="chips">
+              <span class="chip">Retrofit</span><span class="chip">OkHttp</span><span class="chip">WebSockets</span><span class="chip">REST / JSON</span><span class="chip">Firebase</span><span class="chip">SQLite</span><span class="chip">Room</span><span class="chip">Realm</span>
+            </div>
+          </div>
+          <div class="stack-row">
+            <h3>Dependency injection</h3>
+            <div class="chips">
+              <span class="chip">Hilt</span><span class="chip">Koin</span><span class="chip">Manual DI</span>
+            </div>
+          </div>
+          <div class="stack-row">
+            <h3>Performance &amp; quality</h3>
+            <div class="chips">
+              <span class="chip">Perfetto</span><span class="chip">Android Profiler</span><span class="chip">Leak detection</span><span class="chip">Main-thread optimization</span><span class="chip">JUnit</span><span class="chip">MockK</span><span class="chip">Espresso</span><span class="chip">UIAutomator</span>
+            </div>
+          </div>
+          <div class="stack-row">
+            <h3>Libraries &amp; SDKs</h3>
+            <div class="chips">
+              <span class="chip">TensorFlow</span><span class="chip">Firebase Crashlytics</span><span class="chip">Firebase Messaging</span><span class="chip">Remote Config</span><span class="chip">Google Maps</span><span class="chip">Geolocation</span><span class="chip">Glide</span><span class="chip">Picasso</span><span class="chip">OAuth login</span><span class="chip">Social SDKs</span>
+            </div>
+          </div>
+          <div class="stack-row">
+            <h3>Workflow &amp; AI tooling</h3>
+            <div class="chips">
+              <span class="chip">GitHub</span><span class="chip">Bitbucket</span><span class="chip">CI pipelines</span><span class="chip">Agile / Scrum / Kanban</span><span class="chip">Copilot</span><span class="chip">Gemini</span><span class="chip">StackSpot AI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="experience" aria-labelledby="exp-title">
+      <p class="label">// experience</p>
+      <div>
+        <h2 id="exp-title">Products used by millions.</h2>
+
+        <article class="job">
+          <div>
+            <div class="when">Mar 2026 – Present</div>
+            <span class="now">CURRENT</span>
+          </div>
+          <div>
+            <h3>Baires Dev</h3>
+            <p class="role">Android Software Engineer</p>
+            <p class="context">Telecom messaging project with more than 100 million users across the world.</p>
+            <ul>
+              <li>Shipped URL rich previews for link messages, plus image analysis with TensorFlow that blurs sensitive content.</li>
+              <li>Built a mechanism to avoid duplicate messages using idempotency keys and in-flight message tracking.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="when">Sep 2019 – Mar 2026</div>
+          <div>
+            <h3>CI&amp;T</h3>
+            <p class="role">Android Software Engineer</p>
+            <p class="context">Itaú mobile banking app, one of the largest financial apps in Latin America, with 50M+ active users.</p>
+            <ul>
+              <li>Improved performance across critical financial flows, cutting loading times and main-thread jank with Perfetto profiling.</li>
+              <li>Contributed to architectural refactors that improved scalability, modularization and code stability in a high-traffic environment.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="when">Feb 2019 – Sep 2019</div>
+          <div>
+            <h3>MB Labs</h3>
+            <p class="role">Android Software Engineer</p>
+            <ul>
+              <li>Designed and implemented a base Android architecture (MVVM, Clean Architecture and data layers) used across multiple products.</li>
+              <li>Raised team productivity and sped up onboarding by standardizing architecture and reusable components.</li>
+              <li>Led and mentored a team of 7 Android developers, keeping code quality and consistency high.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="education" aria-labelledby="edu-title">
+      <p class="label">// education</p>
+      <div>
+        <h2 id="edu-title">Formal training.</h2>
+        <div class="edu-row">
+          <div class="when">2022 – 2023</div>
+          <div>
+            <h3>MBA in Software Engineering</h3>
+            <p>FIAP</p>
+          </div>
+        </div>
+        <div class="edu-row">
+          <div class="when">2016 – 2018</div>
+          <div>
+            <h3>Postgraduate in Android Application Development</h3>
+            <p>Uniara</p>
+          </div>
+        </div>
+        <div class="edu-row">
+          <div class="when">2012 – 2015</div>
+          <div>
+            <h3>Bachelor's in Systems Analysis and Development</h3>
+            <p>FATEC</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <p class="label">// contact</p>
+      <div>
+        <h2 id="contact-title">Want to talk Android, Kotlin or mobile architecture?</h2>
+        <p class="contact-copy">I enjoy conversations about performance, app architecture and building for large audiences.</p>
+        <div class="actions" id="links" hidden></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Apolo Rossi</span>
+    <span>Plain HTML and CSS. No trackers.</span>
+  </div>
+</footer>
+
+<script>
+  // Add your public profile links here. Empty entries are not rendered.
+  const LINKS = {
+    LinkedIn: "https://www.linkedin.com/in/apolorossi/",
+    GitHub: "https://github.com/ApoloRossi"
+  };
+
+  const box = document.getElementById("links");
+  Object.entries(LINKS).forEach(([name, url]) => {
+    if (!url) return;
+    const a = document.createElement("a");
+    a.className = "btn" + (box.children.length === 0 ? " primary" : "");
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.textContent = name;
+    box.appendChild(a);
+  });
+  box.hidden = box.children.length === 0;
+</script>
+
+</body>
+</html>
